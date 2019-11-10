@@ -11,7 +11,6 @@ const keyEleA = document.getElementById("a");
 const keyEleD = document.getElementById("d");
 const rotateEle = document.getElementById("point-holder");
 const targetRotateEle = document.getElementById("target-holder");
-// const keyboardEle = document.getElementById("keyboard");
 const keyboardGuideEle = document.getElementById("keyboard-guide");
 const pointEle = document.getElementById("point");
 const targetEle = document.getElementById("target");
@@ -238,11 +237,9 @@ const runLogic = () => {
           break;
       }
     });
-    // keyboardEle.className = "keyboard";
     keyboardGuideEle.className = "keyboard";
 
     if (letter) {
-      // keyboardEle.classList.add("active-" + letter);
       keyboardGuideEle.classList.add("active-" + letter);
     }
 
@@ -266,7 +263,6 @@ const runLogic = () => {
     }
   } else {
     pointEle.classList.add("center");
-    // keyboardEle.className = "keyboard";
     keyboardGuideEle.className = "keyboard";
   }
 };
