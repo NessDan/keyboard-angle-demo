@@ -1,3 +1,7 @@
+* {
+  font-family: sans-serif;
+}
+
 header h1 {
   margin: 8px 0;
   padding-bottom: 0;
@@ -17,6 +21,129 @@ header {
 .row {
   display: flex;
   flex-direction: row;
+}
+
+.circle .key {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+}
+
+#keyboard-guide .key {
+  display: none;
+}
+
+#keyboard-guide.active-w #q {
+  display: block;
+  top: -24px;
+  left: 8px;
+}
+
+#keyboard-guide.active-w #e {
+  display: block;
+  top: -24px;
+  left: 38px;
+}
+
+#keyboard-guide.active-s #q {
+  display: block;
+  bottom: -24px;
+  left: 8px;
+}
+
+#keyboard-guide.active-s #e {
+  display: block;
+  bottom: -24px;
+  left: 38px;
+}
+
+#keyboard-guide.active-d #q {
+  display: block;
+  right: -24px;
+  top: 6px;
+}
+
+#keyboard-guide.active-d #a {
+  display: block;
+  right: -24px;
+  top: 38px;
+}
+
+#keyboard-guide.active-a #e {
+  display: block;
+  left: -24px;
+  top: 6px;
+}
+
+#keyboard-guide.active-a #d {
+  display: block;
+  left: -24px;
+  top: 38px;
+}
+
+#keyboard-guide.active-d.w #q {
+  display: block;
+  top: -22px;
+  left: 50px;
+}
+#keyboard-guide.active-d.w #a {
+  display: block;
+  right: -22px;
+  top: -2px;
+}
+
+#keyboard-guide.active-d.s #q {
+  display: block;
+  bottom: -2px;
+  right: -22px;
+  top: auto;
+}
+#keyboard-guide.active-d.s #a {
+  display: block;
+  bottom: -22px;
+  left: 50px;
+  top: auto;
+}
+#keyboard-guide.active-d #e {
+  display: none;
+}
+#keyboard-guide.active-d #d {
+  display: none;
+}
+
+#keyboard-guide.active-a.w #e {
+  display: block;
+  top: -22px;
+  right: 50px;
+  left: auto;
+}
+#keyboard-guide.active-a.w #d {
+  display: block;
+  right: -22px;
+  top: -2px;
+}
+
+#keyboard-guide.active-a.s #e {
+  display: block;
+  bottom: -2px;
+  right: -22px;
+  top: auto;
+}
+#keyboard-guide.active-a.s #d {
+  display: block;
+  bottom: -22px;
+  right: 50px;
+  top: auto;
+  left: auto;
+}
+#keyboard-guide.active-a #q {
+  display: none;
+}
+#keyboard-guide.active-a #a {
+  display: none;
 }
 
 .key {
@@ -74,6 +201,7 @@ header {
 }
 
 .circle {
+  margin: 20px 0 20px 20px;
   height: 64px;
   width: 64px;
   border: 4px solid #000;

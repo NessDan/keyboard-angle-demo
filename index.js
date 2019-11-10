@@ -6,14 +6,13 @@ const KEY_A = 65;
 const KEY_S = 83;
 const KEY_D = 68;
 const keyEleQ = document.getElementById("q");
-const keyEleW = document.getElementById("w");
 const keyEleE = document.getElementById("e");
 const keyEleA = document.getElementById("a");
-const keyEleS = document.getElementById("s");
 const keyEleD = document.getElementById("d");
 const rotateEle = document.getElementById("point-holder");
 const targetRotateEle = document.getElementById("target-holder");
-const keyboardEle = document.getElementById("keyboard");
+// const keyboardEle = document.getElementById("keyboard");
+const keyboardGuideEle = document.getElementById("keyboard-guide");
 const pointEle = document.getElementById("point");
 const targetEle = document.getElementById("target");
 const scoreEle = document.getElementById("score");
@@ -118,10 +117,8 @@ const pickTargetLocation = () => {
 
 const runLogic = () => {
   keyEleQ.classList.remove("active");
-  keyEleW.classList.remove("active");
   keyEleE.classList.remove("active");
   keyEleA.classList.remove("active");
-  keyEleS.classList.remove("active");
   keyEleD.classList.remove("active");
 
   let activeModifier;
@@ -194,14 +191,10 @@ const runLogic = () => {
 
       if (key === KEY_Q) {
         keyEleQ.classList.add("active");
-      } else if (key === KEY_W) {
-        keyEleW.classList.add("active");
       } else if (key === KEY_E) {
         keyEleE.classList.add("active");
       } else if (key === KEY_A) {
         keyEleA.classList.add("active");
-      } else if (key === KEY_S) {
-        keyEleS.classList.add("active");
       } else if (key === KEY_D) {
         keyEleD.classList.add("active");
       }
@@ -226,10 +219,37 @@ const runLogic = () => {
         letter = "d";
         break;
     }
-    keyboardEle.className = "keyboard";
+    console.log("ac", activeModifier);
+    console.log("kp", keysPressed);
+    let letterGuide = [];
+    keysPressed.forEach(pressedKey => {
+      switch (pressedKey) {
+        case KEY_W:
+          letterGuide.push("w");
+          break;
+        case KEY_A:
+          letterGuide.push("a");
+          break;
+        case KEY_S:
+          letterGuide.push("s");
+          break;
+        case KEY_D:
+          letterGuide.push("d");
+          break;
+      }
+    });
+    // keyboardEle.className = "keyboard";
+    keyboardGuideEle.className = "keyboard";
 
     if (letter) {
-      keyboardEle.classList.add("active-" + letter);
+      // keyboardEle.classList.add("active-" + letter);
+      keyboardGuideEle.classList.add("active-" + letter);
+    }
+
+    if (letterGuide.length) {
+      letterGuide.forEach(letterEl => {
+        keyboardGuideEle.classList.add(letterEl);
+      });
     }
 
     rotateEle.style = "transform: rotate(" + degree + "deg);";
@@ -246,7 +266,8 @@ const runLogic = () => {
     }
   } else {
     pointEle.classList.add("center");
-    keyboardEle.className = "keyboard";
+    // keyboardEle.className = "keyboard";
+    keyboardGuideEle.className = "keyboard";
   }
 };
 
