@@ -1,0 +1,122 @@
+header h1 {
+  margin: 8px 0;
+  padding-bottom: 0;
+}
+
+header {
+  margin-bottom: 24px;
+}
+
+.key-and-joy-container {
+  display: flex;
+  justify-content: space-between;
+  width: 360px;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.key {
+  height: 36px;
+  width: 36px;
+  background: black;
+  color: white;
+  padding: 4px;
+  margin: 4px;
+}
+
+.key.active {
+  background: gray;
+  color: black;
+}
+
+.key .icon {
+  display: block;
+  text-align: right;
+  font-size: 24px;
+  line-height: 1;
+  display: none;
+}
+
+.active-d #q .icon.up {
+  display: block;
+}
+
+.active-d #a .icon.down {
+  display: block;
+}
+
+.active-a #e .icon.up {
+  display: block;
+}
+
+.active-a #d .icon.down {
+  display: block;
+}
+
+.active-w #q .icon.left {
+  display: block;
+}
+
+.active-w #e .icon.right {
+  display: block;
+}
+
+.active-s #q .icon.left {
+  display: block;
+}
+
+.active-s #e .icon.right {
+  display: block;
+}
+
+.circle {
+  height: 64px;
+  width: 64px;
+  border: 4px solid #000;
+  border-radius: 64px;
+  position: relative;
+}
+
+.circle .point-holder {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.circle .point {
+  background: black;
+  border: 6px solid #000;
+  border-radius: 6px;
+  position: absolute;
+  right: 26px;
+  top: -7px;
+}
+
+.circle .point.target {
+  background: green;
+  border-color: green;
+}
+
+.circle .point.center {
+  top: 26px;
+  right: 26px;
+}
+
+.point-container {
+  font: 24px monospace;
+}
+
+#score {
+  width: ;
+}
+
+#timer {
+  height: 8px;
+  background: green;
+}
