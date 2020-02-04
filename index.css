@@ -3,6 +3,10 @@
   box-sizing: border-box;
 }
 
+html {
+  zoom: 2;
+}
+
 header h1 {
   margin: 8px 0;
   padding-bottom: 0;
