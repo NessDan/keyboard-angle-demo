@@ -28,6 +28,11 @@ header {
   flex-direction: row;
 }
 
+.row.bottom {
+  /* For staggered KB effect */
+  margin-left: 8px;
+}
+
 .circle .key {
   margin: 0;
   padding: 0;
@@ -157,7 +162,7 @@ header {
   background: black;
   color: white;
   padding: 4px;
-  margin: 4px;
+  margin: 1px;
 }
 
 .key.active {

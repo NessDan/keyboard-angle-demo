@@ -14,37 +14,83 @@
       <li>Use the modifiers to hit the target!</li>
     </ol>
 
-    <div class="key-and-joy-container">
-      <div class="circle">
-        <div class="keyboard" id="keyboard-guide">
-          <div class="key" id="q">
-            <span>Q</span>
-          </div>
-          <div class="key" id="e">
-            <span>E</span>
+    <div class="game-and-vid">
+      <div class="key-and-joy-container">
+        <div class="circle">
+          <div class="keyboard" id="keyboard-guide">
+            <div class="key" id="q">
+              <span>Q</span>
+            </div>
+            <div class="key" id="e">
+              <span>E</span>
+            </div>
+
+            <div class="key" id="a">
+              <span>A</span>
+            </div>
+            <div class="key" id="d">
+              <span>D</span>
+            </div>
           </div>
 
-          <div class="key" id="a">
-            <span>A</span>
+          <div class="point-holder" id="point-holder">
+            <div class="point center" id="point"></div>
           </div>
-          <div class="key" id="d">
-            <span>D</span>
+          <div class="point-holder target-holder" id="target-holder">
+            <div id="target" class="point target"></div>
           </div>
         </div>
 
-        <div class="point-holder" id="point-holder">
-          <div class="point center" id="point"></div>
+        <div class="score-container">
+          Score:
+          <div id="score">0</div>
+          Timer:
+          <div id="timer"></div>
         </div>
-        <div class="point-holder target-holder" id="target-holder">
-          <div id="target" class="point target"></div>
+
+        <div id="keyboard" class="keyboard">
+          <div class="row top">
+            <div class="key" id="q">
+              <span>Q</span>
+              <span class="icon up">⬆</span>
+              <span class="icon left">⬅</span>
+            </div>
+            <div class="key" id="w">
+              <span>W</span>
+            </div>
+            <div class="key" id="e">
+              <span>E</span>
+              <span class="icon right">➡</span>
+              <span class="icon up">⬆</span>
+            </div>
+          </div>
+
+          <div class="row bottom">
+            <div class="key" id="a">
+              <span>A</span>
+              <span class="icon down">⬇</span>
+            </div>
+            <div class="key" id="s">
+              <span>S</span>
+            </div>
+            <div class="key" id="d">
+              <span>D</span>
+              <span class="icon down">⬇</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="score-container">
-        Score:
-        <div id="score">0</div>
-        Timer:
-        <div id="timer"></div>
+      <div id="tutorial-vid">
+        <h1>Tutorial:</h1>
+        <iframe
+          width="224"
+          height="126"
+          src="https://www.youtube.com/embed/ua3JmxiMRqQ"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
       </div>
     </div>
     <script src="./index.js"></script>

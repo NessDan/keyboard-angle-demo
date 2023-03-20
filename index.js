@@ -1,14 +1,10 @@
 let keysPressed = [];
-const KEY_Q = 81;
-const KEY_W = 87;
-const KEY_E = 69;
-const KEY_A = 65;
-const KEY_S = 83;
-const KEY_D = 68;
 const keyEleQ = document.getElementById("q");
 const keyEleE = document.getElementById("e");
 const keyEleA = document.getElementById("a");
 const keyEleD = document.getElementById("d");
+const keyEleW = document.getElementById("w");
+const keyEleS = document.getElementById("s");
 const rotateEle = document.getElementById("point-holder");
 const targetRotateEle = document.getElementById("target-holder");
 const keyboardGuideEle = document.getElementById("keyboard-guide");
@@ -19,7 +15,7 @@ const timerEle = document.getElementById("timer");
 let targetAngle = 15;
 let score = 0;
 let finalScore = 0;
-const maxTime = 80;
+const maxTime = 40;
 let timeLeft = maxTime;
 // 5, 7 right | 19, 17 left | 2, 4 top-right | 22, 20 top-left | 8, 10 bottom-right | 16, 14 bottom-left | 23, 1 up | 11, 13 down |
 const tutorialLevels = [
@@ -33,28 +29,28 @@ document.addEventListener("keydown", (event) => {
   }
 
   if (
-    event.keyCode === KEY_Q ||
-    event.keyCode === KEY_W ||
-    event.keyCode === KEY_E ||
-    event.keyCode === KEY_A ||
-    event.keyCode === KEY_S ||
-    event.keyCode === KEY_D
+    event.code === "KeyQ" ||
+    event.code === "KeyW" ||
+    event.code === "KeyE" ||
+    event.code === "KeyA" ||
+    event.code === "KeyS" ||
+    event.code === "KeyD"
   ) {
-    keysPressed.push(event.keyCode);
+    keysPressed.push(event.code);
     runLogic();
   }
 });
 
 document.addEventListener("keyup", (event) => {
   if (
-    event.keyCode === KEY_Q ||
-    event.keyCode === KEY_W ||
-    event.keyCode === KEY_E ||
-    event.keyCode === KEY_A ||
-    event.keyCode === KEY_S ||
-    event.keyCode === KEY_D
+    event.code === "KeyQ" ||
+    event.code === "KeyW" ||
+    event.code === "KeyE" ||
+    event.code === "KeyA" ||
+    event.code === "KeyS" ||
+    event.code === "KeyD"
   ) {
-    keysPressed = keysPressed.filter((key) => key !== event.keyCode);
+    keysPressed = keysPressed.filter((key) => key !== event.code);
     runLogic();
   }
 });
@@ -97,6 +93,8 @@ const runLogic = () => {
   keyEleE.classList.remove("active");
   keyEleA.classList.remove("active");
   keyEleD.classList.remove("active");
+  keyEleW.classList.remove("active");
+  keyEleS.classList.remove("active");
 
   let activeModifier;
   let degree = 0;
@@ -104,76 +102,80 @@ const runLogic = () => {
   if (keysPressed.length) {
     pointEle.classList.remove("center");
     keysPressed.forEach((key) => {
-      if (activeModifier === KEY_W) {
-        if (key === KEY_Q) {
+      if (activeModifier === "KeyW") {
+        if (key === "KeyQ") {
           degree = degree - 15;
-        } else if (key === KEY_E) {
+        } else if (key === "KeyE") {
           degree = degree + 15;
-        } else if (key === KEY_A) {
-          activeModifier = KEY_A;
+        } else if (key === "KeyA") {
+          activeModifier = "KeyA";
           degree = degree - 45;
-        } else if (key === KEY_D) {
-          activeModifier = KEY_D;
+        } else if (key === "KeyD") {
+          activeModifier = "KeyD";
           degree = degree + 45;
         }
-      } else if (activeModifier === KEY_S) {
-        if (key === KEY_Q) {
+      } else if (activeModifier === "KeyS") {
+        if (key === "KeyQ") {
           degree = degree + 15;
-        } else if (key === KEY_E) {
+        } else if (key === "KeyE") {
           degree = degree - 15;
-        } else if (key === KEY_A) {
-          activeModifier = KEY_A;
+        } else if (key === "KeyA") {
+          activeModifier = "KeyA";
           degree = degree + 45;
-        } else if (key === KEY_D) {
-          activeModifier = KEY_D;
+        } else if (key === "KeyD") {
+          activeModifier = "KeyD";
           degree = degree - 45;
         }
-      } else if (activeModifier === KEY_A) {
-        if (key === KEY_E) {
+      } else if (activeModifier === "KeyA") {
+        if (key === "KeyE") {
           degree = degree + 15;
-        } else if (key === KEY_W) {
+        } else if (key === "KeyW") {
           degree = degree + 45;
-        } else if (key === KEY_D) {
+        } else if (key === "KeyD") {
           degree = degree - 15;
-        } else if (key === KEY_S) {
+        } else if (key === "KeyS") {
           degree = degree - 45;
         }
-      } else if (activeModifier === KEY_D) {
-        if (key === KEY_Q) {
+      } else if (activeModifier === "KeyD") {
+        if (key === "KeyQ") {
           degree = degree - 15;
-        } else if (key === KEY_W) {
+        } else if (key === "KeyW") {
           degree = degree - 45;
-        } else if (key === KEY_A) {
+        } else if (key === "KeyA") {
           degree = degree + 15;
-        } else if (key === KEY_S) {
+        } else if (key === "KeyS") {
           degree = degree + 45;
         }
       } else {
-        if (key === KEY_Q) {
-        } else if (key === KEY_W) {
-          activeModifier = KEY_W;
+        if (key === "KeyQ") {
+        } else if (key === "KeyW") {
+          activeModifier = "KeyW";
           degree = 0;
-        } else if (key === KEY_E) {
-        } else if (key === KEY_A) {
-          activeModifier = KEY_A;
+        } else if (key === "KeyE") {
+        } else if (key === "KeyA") {
+          activeModifier = "KeyA";
           degree = 270;
-        } else if (key === KEY_S) {
-          activeModifier = KEY_S;
+        } else if (key === "KeyS") {
+          activeModifier = "KeyS";
           degree = 180;
-        } else if (key === KEY_D) {
-          activeModifier = KEY_D;
+        } else if (key === "KeyD") {
+          activeModifier = "KeyD";
           degree = 90;
         }
       }
 
-      if (key === KEY_Q) {
+      if (key === "KeyQ") {
         keyEleQ.classList.add("active");
-      } else if (key === KEY_E) {
+      } else if (key === "KeyE") {
         keyEleE.classList.add("active");
-      } else if (key === KEY_A) {
+      } else if (key === "KeyA") {
         keyEleA.classList.add("active");
-      } else if (key === KEY_D) {
+      } else if (key === "KeyD") {
         keyEleD.classList.add("active");
+      } else if (key === "KeyW") {
+        keyEleW.classList.add("active");
+      } else if (key === "KeyS") {
+        keyEleS.classList.add("active");
       }
     });
 
@@ -183,16 +185,16 @@ const runLogic = () => {
 
     let letter;
     switch (activeModifier) {
-      case KEY_W:
+      case "KeyW":
         letter = "w";
         break;
-      case KEY_A:
+      case "KeyA":
         letter = "a";
         break;
-      case KEY_S:
+      case "KeyS":
         letter = "s";
         break;
-      case KEY_D:
+      case "KeyD":
         letter = "d";
         break;
     }
@@ -201,16 +203,16 @@ const runLogic = () => {
     let letterGuide = [];
     keysPressed.forEach((pressedKey) => {
       switch (pressedKey) {
-        case KEY_W:
+        case "KeyW":
           letterGuide.push("w");
           break;
-        case KEY_A:
+        case "KeyA":
           letterGuide.push("a");
           break;
-        case KEY_S:
+        case "KeyS":
           letterGuide.push("s");
           break;
-        case KEY_D:
+        case "KeyD":
           letterGuide.push("d");
           break;
       }
@@ -256,13 +258,29 @@ const startTimer = () => {
       clearInterval(timerInterval);
       finalScore = score;
       scoreEle.innerHTML = finalScore;
+      alert("Game Over! Your score is " + finalScore + "!");
     }
   }, 1000);
 };
 
 const startGame = () => {
   pickTargetLocation();
-  startTimer();
+
+  const firstKeyPress = (e) => {
+    if (
+      e.code === "KeyQ" ||
+      e.code === "KeyW" ||
+      e.code === "KeyE" ||
+      e.code === "KeyA" ||
+      e.code === "KeyS" ||
+      e.code === "KeyD"
+    ) {
+      startTimer();
+      window.removeEventListener("keydown", firstKeyPress);
+    }
+  };
+
+  window.addEventListener("keydown", firstKeyPress);
 };
 
 startGame();
