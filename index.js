@@ -1,3 +1,5 @@
+import { setupFirebaseFirestore } from "./shared/web/firebase.js";
+
 let keysPressed = [];
 const keyEleQ = document.getElementById("q");
 const keyEleE = document.getElementById("e");
@@ -12,10 +14,14 @@ const pointEle = document.getElementById("point");
 const targetEle = document.getElementById("target");
 const scoreEle = document.getElementById("score");
 const timerEle = document.getElementById("timer");
+const leaderboardWrapperEle = document.getElementById("leaderboard-wrapper");
+const leaderboardFormEle = document.getElementById("submit-score");
+const leaderboardEmailEle = document.getElementById("leaderboard-email");
+const leaderboardConsentEle = document.getElementById("email-opt-in");
 let targetAngle = 15;
 let score = 0;
 let finalScore = 0;
-const maxTime = 40;
+const maxTime = 5;
 let timeLeft = maxTime;
 // 5, 7 right | 19, 17 left | 2, 4 top-right | 22, 20 top-left | 8, 10 bottom-right | 16, 14 bottom-left | 23, 1 up | 11, 13 down |
 const tutorialLevels = [
@@ -55,6 +61,49 @@ document.addEventListener("keyup", (event) => {
   }
 });
 
+leaderboardFormEle.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  try {
+    const { db, doc, getDoc, serverTimestamp, updateDoc, setDoc } =
+      await setupFirebaseFirestore();
+
+    let emailDocRef = doc(db, "contest", leaderboardEmailEle.value);
+    const existingDoc = await getDoc(emailDocRef);
+    let highScore = finalScore;
+    let timestamp = serverTimestamp();
+
+    if (existingDoc.exists()) {
+      const existingData = existingDoc.data();
+
+      if (existingData.highScore >= finalScore) {
+        // No new highscore, don't update timestamp or highscore
+        timestamp = existingData.highScoreTimestamp;
+        highScore = existingData.highScore;
+      }
+      emailDocRef = await updateDoc(emailDocRef, {
+        highScore: highScore,
+        highScoreTimestamp: timestamp,
+        allScores: [finalScore, ...existingData.allScores],
+        emailConsent:
+          existingData.emailConsent || leaderboardConsentEle.checked,
+      });
+    } else {
+      emailDocRef = await setDoc(emailDocRef, {
+        highScore: highScore,
+        highScoreTimestamp: timestamp,
+        allScores: [finalScore],
+        emailConsent: leaderboardConsentEle.checked,
+      });
+    }
+
+    alert("Submitted!");
+    location.reload();
+  } catch (e) {
+    alert("Couldn't submit. Do you have adblock enabled?");
+  }
+});
+
 const pickTargetLocation = () => {
   let randomAngleOption;
 
@@ -76,7 +125,7 @@ const pickTargetLocation = () => {
       pickTargetLocation();
       return;
     }
-    console.log(randomAngleOption);
+    // console.log(randomAngleOption);
   }
 
   if (targetAngle !== randomAngleOption * 15) {
@@ -198,8 +247,8 @@ const runLogic = () => {
         letter = "d";
         break;
     }
-    console.log("ac", activeModifier);
-    console.log("kp", keysPressed);
+    // console.log("ac", activeModifier);
+    // console.log("kp", keysPressed);
     let letterGuide = [];
     keysPressed.forEach((pressedKey) => {
       switch (pressedKey) {
@@ -259,6 +308,7 @@ const startTimer = () => {
       finalScore = score;
       scoreEle.innerHTML = finalScore;
       alert("Game Over! Your score is " + finalScore + "!");
+      leaderboardWrapperEle.classList.remove("hidden");
     }
   }, 1000);
 };

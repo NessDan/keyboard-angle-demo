@@ -253,11 +253,11 @@ header {
   font: 24px monospace;
 }
 
-#score {
-  width: ;
-}
-
 #timer {
   height: 8px;
   background: green;
+}
+
+.hidden {
+  display: none;
 }
