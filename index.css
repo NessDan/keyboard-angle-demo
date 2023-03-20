@@ -1,5 +1,5 @@
 * {
-  font-family: sans-serif;
+  font-family: "comic sans ms", sans-serif;
   box-sizing: border-box;
 }
 
@@ -44,6 +44,7 @@ header {
 
 #keyboard-guide .key {
   display: none;
+  font-size: 12px;
 }
 
 #keyboard-guide.active-w #q {
