@@ -23,33 +23,11 @@ const maxTime = 80;
 let timeLeft = maxTime;
 // 5, 7 right | 19, 17 left | 2, 4 top-right | 22, 20 top-left | 8, 10 bottom-right | 16, 14 bottom-left | 23, 1 up | 11, 13 down |
 const tutorialLevels = [
-  5,
-  7,
-  19,
-  17,
-  5,
-  7,
-  19,
-  17,
-  2,
-  4,
-  22,
-  20,
-  8,
-  10,
-  16,
-  14,
-  23,
-  1,
-  11,
-  13,
-  23,
-  1,
-  11,
-  13
+  5, 7, 19, 17, 5, 7, 19, 17, 2, 4, 22, 20, 8, 10, 16, 14, 23, 1, 11, 13, 23, 1,
+  11, 13,
 ];
 
-document.addEventListener("keydown", event => {
+document.addEventListener("keydown", (event) => {
   if (event.repeat) {
     return;
   }
@@ -67,7 +45,7 @@ document.addEventListener("keydown", event => {
   }
 });
 
-document.addEventListener("keyup", event => {
+document.addEventListener("keyup", (event) => {
   if (
     event.keyCode === KEY_Q ||
     event.keyCode === KEY_W ||
@@ -76,7 +54,7 @@ document.addEventListener("keyup", event => {
     event.keyCode === KEY_S ||
     event.keyCode === KEY_D
   ) {
-    keysPressed = keysPressed.filter(key => key !== event.keyCode);
+    keysPressed = keysPressed.filter((key) => key !== event.keyCode);
     runLogic();
   }
 });
@@ -125,7 +103,7 @@ const runLogic = () => {
 
   if (keysPressed.length) {
     pointEle.classList.remove("center");
-    keysPressed.forEach(key => {
+    keysPressed.forEach((key) => {
       if (activeModifier === KEY_W) {
         if (key === KEY_Q) {
           degree = degree - 15;
@@ -221,7 +199,7 @@ const runLogic = () => {
     console.log("ac", activeModifier);
     console.log("kp", keysPressed);
     let letterGuide = [];
-    keysPressed.forEach(pressedKey => {
+    keysPressed.forEach((pressedKey) => {
       switch (pressedKey) {
         case KEY_W:
           letterGuide.push("w");
@@ -244,7 +222,7 @@ const runLogic = () => {
     }
 
     if (letterGuide.length) {
-      letterGuide.forEach(letterEl => {
+      letterGuide.forEach((letterEl) => {
         keyboardGuideEle.classList.add(letterEl);
       });
     }
