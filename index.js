@@ -21,7 +21,7 @@ const leaderboardConsentEle = document.getElementById("email-opt-in");
 let targetAngle = 15;
 let score = 0;
 let finalScore = 0;
-const maxTime = 5;
+const maxTime = 40;
 let timeLeft = maxTime;
 // 5, 7 right | 19, 17 left | 2, 4 top-right | 22, 20 top-left | 8, 10 bottom-right | 16, 14 bottom-left | 23, 1 up | 11, 13 down |
 const tutorialLevels = [
