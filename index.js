@@ -1,12 +1,12 @@
 import { setupFirebaseFirestore } from "./shared/web/firebase.js";
 
 let keysPressed = [];
-const keyEleQ = document.getElementById("q");
-const keyEleE = document.getElementById("e");
-const keyEleA = document.getElementById("a");
-const keyEleD = document.getElementById("d");
-const keyEleW = document.getElementById("w");
-const keyEleS = document.getElementById("s");
+const keyEleQ = document.getElementsByClassName("key-q");
+const keyEleE = document.getElementsByClassName("key-e");
+const keyEleA = document.getElementsByClassName("key-a");
+const keyEleD = document.getElementsByClassName("key-d");
+const keyEleW = document.getElementsByClassName("key-w");
+const keyEleS = document.getElementsByClassName("key-s");
 const rotateEle = document.getElementById("point-holder");
 const targetRotateEle = document.getElementById("target-holder");
 const keyboardGuideEle = document.getElementById("keyboard-guide");
@@ -247,12 +247,12 @@ const missCalculator = (degree) => {
 };
 
 const runLogic = (keyDown) => {
-  keyEleQ.classList.remove("active");
-  keyEleE.classList.remove("active");
-  keyEleA.classList.remove("active");
-  keyEleD.classList.remove("active");
-  keyEleW.classList.remove("active");
-  keyEleS.classList.remove("active");
+  Array.from(keyEleQ).forEach((el) => el.classList.remove("active"));
+  Array.from(keyEleE).forEach((el) => el.classList.remove("active"));
+  Array.from(keyEleA).forEach((el) => el.classList.remove("active"));
+  Array.from(keyEleD).forEach((el) => el.classList.remove("active"));
+  Array.from(keyEleW).forEach((el) => el.classList.remove("active"));
+  Array.from(keyEleS).forEach((el) => el.classList.remove("active"));
 
   let activeModifier;
   let degree = 0;
@@ -323,17 +323,17 @@ const runLogic = (keyDown) => {
       }
 
       if (key === "KeyQ") {
-        keyEleQ.classList.add("active");
+        Array.from(keyEleQ).forEach((el) => el.classList.add("active"));
       } else if (key === "KeyE") {
-        keyEleE.classList.add("active");
+        Array.from(keyEleE).forEach((el) => el.classList.add("active"));
       } else if (key === "KeyA") {
-        keyEleA.classList.add("active");
+        Array.from(keyEleA).forEach((el) => el.classList.add("active"));
       } else if (key === "KeyD") {
-        keyEleD.classList.add("active");
+        Array.from(keyEleD).forEach((el) => el.classList.add("active"));
       } else if (key === "KeyW") {
-        keyEleW.classList.add("active");
+        Array.from(keyEleW).forEach((el) => el.classList.add("active"));
       } else if (key === "KeyS") {
-        keyEleS.classList.add("active");
+        Array.from(keyEleS).forEach((el) => el.classList.add("active"));
       }
     });
 

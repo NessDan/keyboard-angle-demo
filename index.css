@@ -47,113 +47,113 @@ header {
   font-size: 12px;
 }
 
-#keyboard-guide.active-w #q {
+#keyboard-guide.active-w .key-q {
   display: block;
   top: -24px;
   left: 4px;
 }
 
-#keyboard-guide.active-w #e {
+#keyboard-guide.active-w .key-e {
   display: block;
   top: -24px;
   left: 34px;
 }
 
-#keyboard-guide.active-s #q {
+#keyboard-guide.active-s .key-q {
   display: block;
   bottom: -24px;
   left: 4px;
 }
 
-#keyboard-guide.active-s #e {
+#keyboard-guide.active-s .key-e {
   display: block;
   bottom: -24px;
   left: 34px;
 }
 
-#keyboard-guide.active-d #q {
+#keyboard-guide.active-d .key-q {
   display: block;
   right: -24px;
   top: 2px;
 }
 
-#keyboard-guide.active-d #a {
+#keyboard-guide.active-d .key-a {
   display: block;
   right: -24px;
   top: 34px;
 }
 
-#keyboard-guide.active-a #e {
+#keyboard-guide.active-a .key-e {
   display: block;
   left: -24px;
   top: 2px;
 }
 
-#keyboard-guide.active-a #d {
+#keyboard-guide.active-a .key-d {
   display: block;
   left: -24px;
   top: 34px;
 }
 
-#keyboard-guide.active-d.w #q {
+#keyboard-guide.active-d.w .key-q {
   display: block;
   top: -22px;
   left: 50px;
 }
-#keyboard-guide.active-d.w #a {
+#keyboard-guide.active-d.w .key-a {
   display: block;
   right: -22px;
   top: -2px;
 }
 
-#keyboard-guide.active-d.s #q {
+#keyboard-guide.active-d.s .key-q {
   display: block;
   bottom: -2px;
   right: -22px;
   top: auto;
 }
-#keyboard-guide.active-d.s #a {
+#keyboard-guide.active-d.s .key-a {
   display: block;
   bottom: -22px;
   left: 50px;
   top: auto;
 }
-#keyboard-guide.active-d #e {
+#keyboard-guide.active-d .key-e {
   display: none;
 }
-#keyboard-guide.active-d #d {
+#keyboard-guide.active-d .key-d {
   display: none;
 }
 
-#keyboard-guide.active-a.w #e {
+#keyboard-guide.active-a.w .key-e {
   display: block;
   top: -22px;
   right: 50px;
   left: auto;
 }
-#keyboard-guide.active-a.w #d {
+#keyboard-guide.active-a.w .key-d {
   display: block;
   right: -22px;
   top: -2px;
 }
 
-#keyboard-guide.active-a.s #e {
+#keyboard-guide.active-a.s .key-e {
   display: block;
   bottom: -2px;
   right: -22px;
   top: auto;
 }
-#keyboard-guide.active-a.s #d {
+#keyboard-guide.active-a.s .key-d {
   display: block;
   bottom: -22px;
   right: 50px;
   top: auto;
   left: auto;
 }
-#keyboard-guide.active-a #q {
+#keyboard-guide.active-a .key-q {
   display: none;
 }
-#keyboard-guide.active-a #a {
+#keyboard-guide.active-a .key-a {
   display: none;
 }
 
@@ -179,35 +179,35 @@ header {
   display: none;
 }
 
-.active-d #q .icon.up {
+.active-d .key-q .icon.up {
   display: block;
 }
 
-.active-d #a .icon.down {
+.active-d .key-a .icon.down {
   display: block;
 }
 
-.active-a #e .icon.up {
+.active-a .key-e .icon.up {
   display: block;
 }
 
-.active-a #d .icon.down {
+.active-a .key-d .icon.down {
   display: block;
 }
 
-.active-w #q .icon.left {
+.active-w .key-q .icon.left {
   display: block;
 }
 
-.active-w #e .icon.right {
+.active-w .key-e .icon.right {
   display: block;
 }
 
-.active-s #q .icon.left {
+.active-s .key-q .icon.left {
   display: block;
 }
 
-.active-s #e .icon.right {
+.active-s .key-e .icon.right {
   display: block;
 }
 
