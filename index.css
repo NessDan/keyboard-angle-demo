@@ -33,6 +33,22 @@ header {
   margin-left: 8px;
 }
 
+.circle #vert-line {
+  height: 58px;
+  width: 1px;
+  background: black;
+  position: absolute;
+  left: 27px;
+}
+
+.circle #hori-line {
+  width: 58px;
+  height: 1px;
+  background: black;
+  position: absolute;
+  top: 27px;
+}
+
 .circle .key {
   margin: 0;
   padding: 0;
