@@ -13,6 +13,7 @@ const keyboardGuideEle = document.getElementById("keyboard-guide");
 const pointEle = document.getElementById("point");
 const targetEle = document.getElementById("target");
 const scoreEle = document.getElementById("score");
+const missesEle = document.getElementById("misses");
 const timerEle = document.getElementById("timer");
 const leaderboardWrapperEle = document.getElementById("leaderboard-wrapper");
 const leaderboardFormEle = document.getElementById("submit-score");
@@ -20,6 +21,7 @@ const leaderboardEmailEle = document.getElementById("leaderboard-email");
 const leaderboardConsentEle = document.getElementById("email-opt-in");
 let targetAngle = 15;
 let score = 0;
+let misses = 0;
 let finalScore = 0;
 const maxTime = 40;
 let timeLeft = maxTime;
@@ -43,7 +45,7 @@ document.addEventListener("keydown", (event) => {
     event.code === "KeyD"
   ) {
     keysPressed.push(event.code);
-    runLogic();
+    runLogic(true);
   }
 });
 
@@ -70,6 +72,7 @@ leaderboardFormEle.addEventListener("submit", async (e) => {
 
     let emailDocRef = doc(db, "contest", leaderboardEmailEle.value);
     const existingDoc = await getDoc(emailDocRef);
+    let highScoreMiss = misses;
     let highScore = finalScore;
     let timestamp = serverTimestamp();
 
@@ -78,11 +81,13 @@ leaderboardFormEle.addEventListener("submit", async (e) => {
 
       if (existingData.highScore >= finalScore) {
         // No new highscore, don't update timestamp or highscore
+        highScoreMiss = existingData?.highScoreMiss || 0;
         timestamp = existingData.highScoreTimestamp;
         highScore = existingData.highScore;
       }
       emailDocRef = await updateDoc(emailDocRef, {
         highScore: highScore,
+        highScoreMiss: highScoreMiss,
         highScoreTimestamp: timestamp,
         allScores: [finalScore, ...existingData.allScores],
         emailConsent:
@@ -91,6 +96,7 @@ leaderboardFormEle.addEventListener("submit", async (e) => {
     } else {
       emailDocRef = await setDoc(emailDocRef, {
         highScore: highScore,
+        highScoreMiss: highScoreMiss,
         highScoreTimestamp: timestamp,
         allScores: [finalScore],
         emailConsent: leaderboardConsentEle.checked,
@@ -137,7 +143,110 @@ const pickTargetLocation = () => {
   }
 };
 
-const runLogic = () => {
+const missCalculator = (degree) => {
+  switch (targetAngle) {
+    case 15:
+      if (![0, 15].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 30:
+      if (![0, 30, 45, 90].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 60:
+      if (![0, 45, 60, 90].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 75:
+      if (![75, 90].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 105:
+      if (![90, 105].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 120:
+      if (![90, 120, 135, 180].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 150:
+      if (![90, 135, 150, 180].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 165:
+      if (![165, 180].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 195:
+      if (![180, 195].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 210:
+      if (![180, 210, 225, 270].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 240:
+      if (![180, 225, 240, 270].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 255:
+      if (![255, 270].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 285:
+      if (![270, 285].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 300:
+      if (![0, 270, 300, 315].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 330:
+      if (![0, 270, 315, 330].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    case 345:
+      if (![0, 345].includes(degree)) {
+        misses++;
+        missesEle.innerText = misses;
+      }
+      break;
+    default:
+      break;
+  }
+};
+
+const runLogic = (keyDown) => {
   keyEleQ.classList.remove("active");
   keyEleE.classList.remove("active");
   keyEleA.classList.remove("active");
@@ -279,6 +388,10 @@ const runLogic = () => {
     }
 
     rotateEle.style = "transform: rotate(" + degree + "deg);";
+
+    if (keyDown) {
+      missCalculator(degree);
+    }
 
     if (degree === targetAngle) {
       score = score + 1;
