@@ -45,6 +45,19 @@ document.addEventListener("keydown", (event) => {
     event.code === "KeyD"
   ) {
     keysPressed.push(event.code);
+
+    // Always make sure Q and E are at the end of the array
+    // Allows for easier processing below
+    keysPressed.sort((a, b) => {
+      if (a === "KeyQ" || a === "KeyE") {
+        return 1;
+      }
+      if (b === "KeyQ" || b === "KeyE") {
+        return -1;
+      }
+      return 0;
+    });
+
     runLogic(true);
   }
 });
@@ -258,7 +271,6 @@ const runLogic = (keyDown) => {
   let degree = 0;
 
   if (keysPressed.length) {
-    pointEle.classList.remove("center");
     keysPressed.forEach((key) => {
       if (activeModifier === "KeyW") {
         if (key === "KeyQ") {
@@ -341,6 +353,10 @@ const runLogic = (keyDown) => {
       degree = degree + 360; // Sometimes, we subtract from the degree (Holding W then Q) so it goes negative.
     }
 
+    if (!activeModifier) {
+      return;
+    }
+
     let letter;
     switch (activeModifier) {
       case "KeyW":
@@ -388,6 +404,7 @@ const runLogic = (keyDown) => {
     }
 
     rotateEle.style = "transform: rotate(" + degree + "deg);";
+    pointEle.classList.remove("center");
 
     if (keyDown) {
       missCalculator(degree);
