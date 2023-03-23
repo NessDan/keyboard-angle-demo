@@ -1,5 +1,3 @@
-import { setupFirebaseFirestore } from "./shared/web/firebase.js";
-
 let keysPressed = [];
 const keyEleQ = document.getElementsByClassName("key-q");
 const keyEleE = document.getElementsByClassName("key-e");
@@ -15,10 +13,6 @@ const targetEle = document.getElementById("target");
 const scoreEle = document.getElementById("score");
 const missesEle = document.getElementById("misses");
 const timerEle = document.getElementById("timer");
-const leaderboardWrapperEle = document.getElementById("leaderboard-wrapper");
-const leaderboardFormEle = document.getElementById("submit-score");
-const leaderboardEmailEle = document.getElementById("leaderboard-email");
-const leaderboardConsentEle = document.getElementById("email-opt-in");
 let targetAngle = 15;
 let score = 0;
 let misses = 0;
@@ -76,53 +70,6 @@ document.addEventListener("keyup", (event) => {
   }
 });
 
-leaderboardFormEle.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  try {
-    const { db, doc, getDoc, serverTimestamp, updateDoc, setDoc } =
-      await setupFirebaseFirestore();
-
-    let emailDocRef = doc(db, "contest", leaderboardEmailEle.value);
-    const existingDoc = await getDoc(emailDocRef);
-    let highScoreMiss = misses;
-    let highScore = finalScore;
-    let timestamp = serverTimestamp();
-
-    if (existingDoc.exists()) {
-      const existingData = existingDoc.data();
-
-      if (existingData.highScore >= finalScore) {
-        // No new highscore, don't update timestamp or highscore
-        highScoreMiss = existingData?.highScoreMiss || 0;
-        timestamp = existingData.highScoreTimestamp;
-        highScore = existingData.highScore;
-      }
-      emailDocRef = await updateDoc(emailDocRef, {
-        highScore: highScore,
-        highScoreMiss: highScoreMiss,
-        highScoreTimestamp: timestamp,
-        allScores: [finalScore, ...existingData.allScores],
-        emailConsent:
-          existingData.emailConsent || leaderboardConsentEle.checked,
-      });
-    } else {
-      emailDocRef = await setDoc(emailDocRef, {
-        highScore: highScore,
-        highScoreMiss: highScoreMiss,
-        highScoreTimestamp: timestamp,
-        allScores: [finalScore],
-        emailConsent: leaderboardConsentEle.checked,
-      });
-    }
-
-    alert("Submitted!");
-    location.reload();
-  } catch (e) {
-    alert("Couldn't submit. Do you have adblock enabled?");
-  }
-});
-
 const pickTargetLocation = () => {
   let randomAngleOption;
 
@@ -161,101 +108,89 @@ const missCalculator = (degree) => {
     case 15:
       if (![0, 15].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 30:
       if (![0, 30, 45, 90].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 60:
       if (![0, 45, 60, 90].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 75:
       if (![75, 90].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 105:
       if (![90, 105].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 120:
       if (![90, 120, 135, 180].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 150:
       if (![90, 135, 150, 180].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 165:
       if (![165, 180].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 195:
       if (![180, 195].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 210:
       if (![180, 210, 225, 270].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 240:
       if (![180, 225, 240, 270].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 255:
       if (![255, 270].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 285:
       if (![270, 285].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 300:
       if (![0, 270, 300, 315].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 330:
       if (![0, 270, 315, 330].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     case 345:
       if (![0, 345].includes(degree)) {
         misses++;
-        missesEle.innerText = misses;
       }
       break;
     default:
       break;
+  }
+
+  if (timeLeft > 0) {
+    missesEle.innerText = misses;
   }
 };
 
@@ -437,8 +372,6 @@ const startTimer = () => {
       clearInterval(timerInterval);
       finalScore = score;
       scoreEle.innerHTML = finalScore;
-      alert("Game Over! Your score is " + finalScore + "!");
-      leaderboardWrapperEle.classList.remove("hidden");
     }
   }, 1000);
 };
