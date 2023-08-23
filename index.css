@@ -19,8 +19,7 @@ header {
 .key-and-joy-container {
   display: flex;
   justify-content: space-between;
-  width: 360px;
-  align-items: center;
+  width: 320px;
 }
 
 .row {
@@ -174,8 +173,9 @@ header {
 }
 
 .key {
-  height: 36px;
-  width: 36px;
+  height: 24px;
+  width: 24px;
+  font-size: 9px;
   background: black;
   color: white;
   padding: 4px;
@@ -268,6 +268,18 @@ header {
 
 .point-container {
   font: 24px monospace;
+}
+
+.accuracy-stat {
+  display: none;
+}
+
+.gameover .stat {
+  display: block;
+}
+
+.gameover .timer-stat {
+  display: none;
 }
 
 #timer {

@@ -1,4 +1,5 @@
 let keysPressed = [];
+const angleGameEle = document.getElementById("angle-game");
 const keyEleQ = document.getElementsByClassName("key-q");
 const keyEleE = document.getElementsByClassName("key-e");
 const keyEleA = document.getElementsByClassName("key-a");
@@ -11,14 +12,18 @@ const keyboardGuideEle = document.getElementById("keyboard-guide");
 const pointEle = document.getElementById("point");
 const targetEle = document.getElementById("target");
 const scoreEle = document.getElementById("score");
-const missesEle = document.getElementById("misses");
+const accuracyEle = document.getElementById("accuracy");
 const timerEle = document.getElementById("timer");
+const timerSectionEle = document.getElementById("timer-section");
 let targetAngle = 15;
 let score = 0;
+let hits = 0;
 let misses = 0;
+let accuracy = 100;
 let finalScore = 0;
-const maxTime = 40;
+const maxTime = 1;
 let timeLeft = maxTime;
+let timerInterval;
 // 5, 7 right | 19, 17 left | 2, 4 top-right | 22, 20 top-left | 8, 10 bottom-right | 16, 14 bottom-left | 23, 1 up | 11, 13 down |
 const tutorialLevels = [
   5, 7, 19, 17, 5, 7, 19, 17, 2, 4, 22, 20, 8, 10, 16, 14, 23, 1, 11, 13, 23, 1,
@@ -73,8 +78,8 @@ document.addEventListener("keyup", (event) => {
 const pickTargetLocation = () => {
   let randomAngleOption;
 
-  if (tutorialLevels[score]) {
-    randomAngleOption = tutorialLevels[score];
+  if (tutorialLevels[hits]) {
+    randomAngleOption = tutorialLevels[hits];
   } else {
     randomAngleOption = Math.floor(Math.random() * (23 - 1 + 1) + 1);
     // Don't allow the easy angles (e.g. up, up-right, right, etc.)
@@ -187,10 +192,6 @@ const missCalculator = (degree) => {
       break;
     default:
       break;
-  }
-
-  if (timeLeft > 0) {
-    missesEle.innerText = misses;
   }
 };
 
@@ -346,14 +347,18 @@ const runLogic = (keyDown) => {
     }
 
     if (degree === targetAngle) {
-      score = score + 1;
-
-      // Game is over, don't update visual score
-      if (timeLeft > 0) {
-        scoreEle.innerHTML = score;
-      }
+      hits = hits + 1;
 
       pickTargetLocation();
+    }
+
+    score = hits - misses;
+    accuracy = (hits / (hits + misses)) * 100 || 100;
+
+    // Game is over, don't update visual hit
+    if (timeLeft > 0) {
+      scoreEle.innerHTML = score;
+      accuracyEle.innerHTML = accuracy.toFixed(1) + "%";
     }
   } else {
     pointEle.classList.add("center");
@@ -361,17 +366,24 @@ const runLogic = (keyDown) => {
   }
 };
 
+const gameOver = () => {
+  angleGameEle.classList.add("gameover");
+  clearInterval(timerInterval);
+  finalScore = score;
+  scoreEle.innerHTML = finalScore;
+  alert(`Game over! Your score is ${finalScore}`);
+};
+
 const startTimer = () => {
+  timerSectionEle.classList.remove("hidden");
   timeLeft = maxTime;
   timerEle.style = "width: " + (timeLeft / maxTime) * 100 + "%";
-  const timerInterval = setInterval(() => {
+  timerInterval = setInterval(() => {
     timeLeft = timeLeft - 1;
     // timerEle.innerText = timeLeft;
     timerEle.style = "width: " + (timeLeft / maxTime) * 100 + "%";
     if (timeLeft === 0) {
-      clearInterval(timerInterval);
-      finalScore = score;
-      scoreEle.innerHTML = finalScore;
+      gameOver();
     }
   }, 1000);
 };
@@ -379,7 +391,7 @@ const startTimer = () => {
 const startGame = () => {
   pickTargetLocation();
 
-  const firstKeyPress = (e) => {
+  const startTimerListener = (e) => {
     if (
       e.code === "KeyQ" ||
       e.code === "KeyW" ||
@@ -388,12 +400,14 @@ const startGame = () => {
       e.code === "KeyS" ||
       e.code === "KeyD"
     ) {
-      startTimer();
-      window.removeEventListener("keydown", firstKeyPress);
+      if (!tutorialLevels[hits]) {
+        startTimer();
+        window.removeEventListener("keydown", startTimerListener);
+      }
     }
   };
 
-  window.addEventListener("keydown", firstKeyPress);
+  window.addEventListener("keydown", startTimerListener);
 };
 
 startGame();

@@ -14,89 +14,94 @@
       <li>Use the modifiers to hit the target!</li>
     </ol>
 
-    <div class="game-and-vid">
-      <div class="key-and-joy-container">
-        <div class="circle">
-          <div id="vert-line"></div>
-          <div id="hori-line"></div>
-          <div class="keyboard" id="keyboard-guide">
-            <div class="key key-q">
-              <span>Q</span>
-            </div>
-            <div class="key key-e">
-              <span>E</span>
-            </div>
-
-            <div class="key key-a">
-              <span>A</span>
-            </div>
-            <div class="key key-d">
-              <span>D</span>
-            </div>
+    <div id="angle-game" class="key-and-joy-container">
+      <div class="circle">
+        <div id="vert-line"></div>
+        <div id="hori-line"></div>
+        <div class="keyboard" id="keyboard-guide">
+          <div class="key key-q">
+            <span>Q</span>
+          </div>
+          <div class="key key-e">
+            <span>E</span>
           </div>
 
-          <div class="point-holder" id="point-holder">
-            <div class="point center" id="point"></div>
+          <div class="key key-a">
+            <span>A</span>
           </div>
-          <div class="point-holder target-holder" id="target-holder">
-            <div id="target" class="point target"></div>
+          <div class="key key-d">
+            <span>D</span>
           </div>
         </div>
 
-        <div class="score-container">
+        <div class="point-holder" id="point-holder">
+          <div class="point center" id="point"></div>
+        </div>
+        <div class="point-holder target-holder" id="target-holder">
+          <div id="target" class="point target"></div>
+        </div>
+      </div>
+
+      <div id="stats">
+        <section class="score-stat stat">
           Score:
           <div id="score">0</div>
-          Misses:
-          <div id="misses">0</div>
+        </section>
+        <section class="accuracy-stat stat">
+          Accuracy:
+          <div id="accuracy">-</div>
+        </section>
+        <section id="timer-section" class="timer-stat stat hidden">
           Timer:
           <div id="timer"></div>
-        </div>
-
-        <div id="keyboard" class="keyboard">
-          <div class="row top">
-            <div class="key key-q">
-              <span>Q</span>
-              <span class="icon up">⬆</span>
-              <span class="icon left">⬅</span>
-            </div>
-            <div class="key key-w">
-              <span>W</span>
-            </div>
-            <div class="key key-e">
-              <span>E</span>
-              <span class="icon right">➡</span>
-              <span class="icon up">⬆</span>
-            </div>
-          </div>
-
-          <div class="row bottom">
-            <div class="key key-a">
-              <span>A</span>
-              <span class="icon down">⬇</span>
-            </div>
-            <div class="key key-s">
-              <span>S</span>
-            </div>
-            <div class="key key-d">
-              <span>D</span>
-              <span class="icon down">⬇</span>
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
 
-      <div id="tutorial-vid">
-        <h1>Tutorial:</h1>
-        <iframe
-          width="224"
-          height="126"
-          src="https://www.youtube.com/embed/ua3JmxiMRqQ"
-          frameborder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
+      <div id="keyboard" class="keyboard">
+        <div class="row top">
+          <div class="key key-q">
+            <span>Q</span>
+            <span class="icon up">⬆</span>
+            <span class="icon left">⬅</span>
+          </div>
+          <div class="key key-w">
+            <span>W</span>
+          </div>
+          <div class="key key-e">
+            <span>E</span>
+            <span class="icon right">➡</span>
+            <span class="icon up">⬆</span>
+          </div>
+        </div>
+
+        <div class="row bottom">
+          <div class="key key-a">
+            <span>A</span>
+            <span class="icon down">⬇</span>
+          </div>
+          <div class="key key-s">
+            <span>S</span>
+          </div>
+          <div class="key key-d">
+            <span>D</span>
+            <span class="icon down">⬇</span>
+          </div>
+        </div>
       </div>
     </div>
+
+    <div id="tutorial-vid">
+      <h1>Tutorial:</h1>
+      <iframe
+        width="224"
+        height="126"
+        src="https://www.youtube.com/embed/ua3JmxiMRqQ"
+        frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+
     <script type="module" src="./index.js"></script>
   </body>
 </html>
