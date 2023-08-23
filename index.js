@@ -1,3 +1,5 @@
+import { setupFirebaseFirestore } from "./shared/web/firebase.js";
+
 let keysPressed = [];
 const angleGameEle = document.getElementById("angle-game");
 const keyEleQ = document.getElementsByClassName("key-q");
@@ -15,6 +17,10 @@ const scoreEle = document.getElementById("score");
 const accuracyEle = document.getElementById("accuracy");
 const timerEle = document.getElementById("timer");
 const timerSectionEle = document.getElementById("timer-section");
+const leaderboardWrapperEle = document.getElementById("leaderboard-wrapper");
+const leaderboardFormEle = document.getElementById("submit-score");
+const leaderboardEmailEle = document.getElementById("leaderboard-email");
+const leaderboardConsentEle = document.getElementById("email-opt-in");
 let targetAngle = 15;
 let score = 0;
 let hits = 0;
@@ -72,6 +78,53 @@ document.addEventListener("keyup", (event) => {
   ) {
     keysPressed = keysPressed.filter((key) => key !== event.code);
     runLogic();
+  }
+});
+
+leaderboardFormEle.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  try {
+    const { db, doc, getDoc, serverTimestamp, updateDoc, setDoc } =
+      await setupFirebaseFirestore();
+
+    let emailDocRef = doc(db, "contest", leaderboardEmailEle.value);
+    const existingDoc = await getDoc(emailDocRef);
+    let highScoreMiss = misses;
+    let highScore = finalScore;
+    let timestamp = serverTimestamp();
+
+    if (existingDoc.exists()) {
+      const existingData = existingDoc.data();
+
+      if (existingData.highScore >= finalScore) {
+        // No new highscore, don't update timestamp or highscore
+        highScoreMiss = existingData?.highScoreMiss || 0;
+        timestamp = existingData.highScoreTimestamp;
+        highScore = existingData.highScore;
+      }
+      emailDocRef = await updateDoc(emailDocRef, {
+        highScore: highScore,
+        highScoreMiss: highScoreMiss,
+        highScoreTimestamp: timestamp,
+        allScores: [finalScore, ...existingData.allScores],
+        emailConsent:
+          existingData.emailConsent || leaderboardConsentEle.checked,
+      });
+    } else {
+      emailDocRef = await setDoc(emailDocRef, {
+        highScore: highScore,
+        highScoreMiss: highScoreMiss,
+        highScoreTimestamp: timestamp,
+        allScores: [finalScore],
+        emailConsent: leaderboardConsentEle.checked,
+      });
+    }
+
+    alert("Submitted!");
+    location.reload();
+  } catch (e) {
+    alert("Couldn't submit. Do you have adblock enabled?");
   }
 });
 
@@ -372,6 +425,7 @@ const gameOver = () => {
   finalScore = score;
   scoreEle.innerHTML = finalScore;
   alert(`Game over! Your score is ${finalScore}`);
+  leaderboardWrapperEle.classList.remove("hidden");
 };
 
 const startTimer = () => {
