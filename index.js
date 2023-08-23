@@ -21,7 +21,7 @@ let hits = 0;
 let misses = 0;
 let accuracy = 100;
 let finalScore = 0;
-const maxTime = 1;
+const maxTime = 30;
 let timeLeft = maxTime;
 let timerInterval;
 // 5, 7 right | 19, 17 left | 2, 4 top-right | 22, 20 top-left | 8, 10 bottom-right | 16, 14 bottom-left | 23, 1 up | 11, 13 down |
