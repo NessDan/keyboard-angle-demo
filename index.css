@@ -21,7 +21,7 @@ header {
   justify-content: space-evenly;
 }
 
-.submit-score-wrapper {
+#submit-score-wrapper {
   font-size: 60%;
 }
 
