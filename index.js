@@ -1,7 +1,7 @@
 import { setupFirebaseFirestore } from "./shared/web/firebase.js";
 
 let keysPressed = [];
-const angleGameEle = document.getElementById("angle-game");
+const bodyEle = document.body;
 const keyEleQ = document.getElementsByClassName("key-q");
 const keyEleE = document.getElementsByClassName("key-e");
 const keyEleA = document.getElementsByClassName("key-a");
@@ -19,6 +19,7 @@ const timerEle = document.getElementById("timer");
 const timerSectionEle = document.getElementById("timer-section");
 const leaderboardWrapperEle = document.getElementById("leaderboard-wrapper");
 const leaderboardFormEle = document.getElementById("submit-score");
+const leaderboardTwitterEle = document.getElementById("leaderboard-twitter");
 const leaderboardEmailEle = document.getElementById("leaderboard-email");
 const leaderboardConsentEle = document.getElementById("email-opt-in");
 let targetAngle = 15;
@@ -32,8 +33,7 @@ let timeLeft = maxTime;
 let timerInterval;
 // 5, 7 right | 19, 17 left | 2, 4 top-right | 22, 20 top-left | 8, 10 bottom-right | 16, 14 bottom-left | 23, 1 up | 11, 13 down |
 const tutorialLevels = [
-  5, 7, 19, 17, 5, 7, 19, 17, 2, 4, 22, 20, 8, 10, 16, 14, 23, 1, 11, 13, 23, 1,
-  11, 13,
+  23, 1, 5, 7, 2, 4, 19, 17, 22, 20, 8, 10, 16, 14, 11, 13,
 ];
 
 document.addEventListener("keydown", (event) => {
@@ -88,8 +88,10 @@ leaderboardFormEle.addEventListener("submit", async (e) => {
     const { db, doc, getDoc, serverTimestamp, updateDoc, setDoc } =
       await setupFirebaseFirestore();
 
-    let emailDocRef = doc(db, "contest", leaderboardEmailEle.value);
-    const existingDoc = await getDoc(emailDocRef);
+    const email = leaderboardEmailEle.value?.trim();
+    const twitter = leaderboardTwitterEle.value?.trim()?.replace(/^@/, "");
+    let docRef = doc(db, "contest2", twitter);
+    const existingDoc = await getDoc(docRef);
     let highScoreMiss = misses;
     let highScore = finalScore;
     let timestamp = serverTimestamp();
@@ -103,16 +105,18 @@ leaderboardFormEle.addEventListener("submit", async (e) => {
         timestamp = existingData.highScoreTimestamp;
         highScore = existingData.highScore;
       }
-      emailDocRef = await updateDoc(emailDocRef, {
+      docRef = await updateDoc(docRef, {
+        twitter: twitter,
+        email: email,
         highScore: highScore,
         highScoreMiss: highScoreMiss,
         highScoreTimestamp: timestamp,
         allScores: [finalScore, ...existingData.allScores],
-        emailConsent:
-          existingData.emailConsent || leaderboardConsentEle.checked,
       });
     } else {
-      emailDocRef = await setDoc(emailDocRef, {
+      docRef = await setDoc(docRef, {
+        twitter: twitter,
+        email: email,
         highScore: highScore,
         highScoreMiss: highScoreMiss,
         highScoreTimestamp: timestamp,
@@ -420,11 +424,10 @@ const runLogic = (keyDown) => {
 };
 
 const gameOver = () => {
-  angleGameEle.classList.add("gameover");
+  bodyEle.classList.add("gameover");
   clearInterval(timerInterval);
   finalScore = score;
   scoreEle.innerHTML = finalScore;
-  alert(`Game over! Your score is ${finalScore}`);
   leaderboardWrapperEle.classList.remove("hidden");
 };
 

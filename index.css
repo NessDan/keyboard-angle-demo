@@ -16,6 +16,15 @@ header {
   margin-bottom: 24px;
 }
 
+.game-and-submission {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.submit-score {
+  font-size: 60%;
+}
+
 .key-and-joy-container {
   display: flex;
   justify-content: space-between;
@@ -282,9 +291,17 @@ header {
   display: none;
 }
 
+.gameover .submit-score {
+  visibility: visible;
+}
+
 #timer {
   height: 8px;
   background: green;
+}
+
+.vis-hidden {
+  visibility: hidden;
 }
 
 .hidden {
