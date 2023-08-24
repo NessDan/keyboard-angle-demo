@@ -26,6 +26,7 @@ const leaderboardSubmitWrapperEle = document.getElementById(
 const leaderboardTwitterEle = document.getElementById("leaderboard-twitter");
 const leaderboardEmailEle = document.getElementById("leaderboard-email");
 const leaderboardConsentEle = document.getElementById("email-opt-in");
+const tweetLinkEle = document.getElementById("tweet-link");
 let targetAngle = 15;
 let score = 0;
 let hits = 0;
@@ -432,6 +433,7 @@ const gameOver = () => {
   clearInterval(timerInterval);
   finalScore = score;
   scoreEle.innerHTML = finalScore;
+  tweetLinkEle.href = `https://twitter.com/intent/tweet?text=Playing%20this%20game%20to%20try%20and%20win%20a%20keyboard.gg%20Edgeguard%3A%20https%3A%2F%2Fkeyboard.gg%2Fcontest%2F%0A%0AMy%20score%3A%20${finalScore}%0A%0Ahttps%3A%2F%2Ftwitter.com%2FKeyboardDotGG%2Fstatus%2F1694717849213026601`;
   leaderboardWrapperEle.classList.remove("hidden");
 };
 
