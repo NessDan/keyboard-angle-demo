@@ -18,7 +18,11 @@ const accuracyEle = document.getElementById("accuracy");
 const timerEle = document.getElementById("timer");
 const timerSectionEle = document.getElementById("timer-section");
 const leaderboardWrapperEle = document.getElementById("leaderboard-wrapper");
+const leaderboardSubmittedEle = document.getElementById("submitted-text");
 const leaderboardFormEle = document.getElementById("submit-score");
+const leaderboardSubmitWrapperEle = document.getElementById(
+  "submit-score-wrapper"
+);
 const leaderboardTwitterEle = document.getElementById("leaderboard-twitter");
 const leaderboardEmailEle = document.getElementById("leaderboard-email");
 const leaderboardConsentEle = document.getElementById("email-opt-in");
@@ -92,7 +96,7 @@ leaderboardFormEle.addEventListener("submit", async (e) => {
     const twitter = leaderboardTwitterEle.value?.trim()?.replace(/^@/, "");
     let docRef = doc(db, "contest2", twitter);
     const existingDoc = await getDoc(docRef);
-    let highScoreMiss = misses;
+    let highScoreAccuracy = accuracy;
     let highScore = finalScore;
     let timestamp = serverTimestamp();
 
@@ -101,7 +105,7 @@ leaderboardFormEle.addEventListener("submit", async (e) => {
 
       if (existingData.highScore >= finalScore) {
         // No new highscore, don't update timestamp or highscore
-        highScoreMiss = existingData?.highScoreMiss || 0;
+        highScoreAccuracy = existingData?.highScoreAccuracy || 0;
         timestamp = existingData.highScoreTimestamp;
         highScore = existingData.highScore;
       }
@@ -109,7 +113,7 @@ leaderboardFormEle.addEventListener("submit", async (e) => {
         twitter: twitter,
         email: email,
         highScore: highScore,
-        highScoreMiss: highScoreMiss,
+        highScoreAccuracy: highScoreAccuracy,
         highScoreTimestamp: timestamp,
         allScores: [finalScore, ...existingData.allScores],
       });
@@ -118,15 +122,14 @@ leaderboardFormEle.addEventListener("submit", async (e) => {
         twitter: twitter,
         email: email,
         highScore: highScore,
-        highScoreMiss: highScoreMiss,
+        highScoreAccuracy: highScoreAccuracy,
         highScoreTimestamp: timestamp,
         allScores: [finalScore],
-        emailConsent: leaderboardConsentEle.checked,
       });
     }
 
-    alert("Submitted!");
-    location.reload();
+    leaderboardSubmitWrapperEle.classList.add("hidden");
+    leaderboardSubmittedEle.classList.remove("hidden");
   } catch (e) {
     alert("Couldn't submit. Do you have adblock enabled?");
   }
@@ -425,6 +428,7 @@ const runLogic = (keyDown) => {
 
 const gameOver = () => {
   bodyEle.classList.add("gameover");
+  leaderboardSubmitWrapperEle.classList.remove("vis-hidden");
   clearInterval(timerInterval);
   finalScore = score;
   scoreEle.innerHTML = finalScore;

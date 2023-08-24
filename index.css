@@ -21,7 +21,7 @@ header {
   justify-content: space-evenly;
 }
 
-.submit-score {
+.submit-score-wrapper {
   font-size: 60%;
 }
 
@@ -289,10 +289,6 @@ header {
 
 .gameover .timer-stat {
   display: none;
-}
-
-.gameover .submit-score {
-  visibility: visible;
 }
 
 #timer {
