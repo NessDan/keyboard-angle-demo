@@ -41,17 +41,19 @@ document.addEventListener("keydown", (event) => {
     event.code === "KeyE" ||
     event.code === "KeyA" ||
     event.code === "KeyS" ||
-    event.code === "KeyD"
+    event.code === "KeyD" ||
+    event.code === "KeyZ" ||
+    event.code === "KeyC"
   ) {
     keysPressed.push(event.code);
 
     // Always make sure Q and E are at the end of the array
     // Allows for easier processing below
     keysPressed.sort((a, b) => {
-      if (a === "KeyQ" || a === "KeyE") {
+      if (a === "KeyQ" || a === "KeyE" || a === "KeyZ" || a === "KeyC") {
         return 1;
       }
-      if (b === "KeyQ" || b === "KeyE") {
+      if (b === "KeyQ" || b === "KeyE" || b === "KeyZ" || b === "KeyC") {
         return -1;
       }
       return 0;
@@ -68,7 +70,9 @@ document.addEventListener("keyup", (event) => {
     event.code === "KeyE" ||
     event.code === "KeyA" ||
     event.code === "KeyS" ||
-    event.code === "KeyD"
+    event.code === "KeyD" ||
+    event.code === "KeyZ" ||
+    event.code === "KeyC"
   ) {
     keysPressed = keysPressed.filter((key) => key !== event.code);
     runLogic();
@@ -209,9 +213,9 @@ const runLogic = (keyDown) => {
   if (keysPressed.length) {
     keysPressed.forEach((key) => {
       if (activeModifier === "KeyW") {
-        if (key === "KeyQ") {
+        if (key === "KeyQ" || key === "KeyZ") {
           degree = degree - 15;
-        } else if (key === "KeyE") {
+        } else if (key === "KeyE" || key === "KeyC") {
           degree = degree + 15;
         } else if (key === "KeyA") {
           activeModifier = "KeyA";
@@ -221,9 +225,9 @@ const runLogic = (keyDown) => {
           degree = degree + 45;
         }
       } else if (activeModifier === "KeyS") {
-        if (key === "KeyQ") {
+        if (key === "KeyQ" || key === "KeyZ") {
           degree = degree + 15;
-        } else if (key === "KeyE") {
+        } else if (key === "KeyE" || key === "KeyC") {
           degree = degree - 15;
         } else if (key === "KeyA") {
           activeModifier = "KeyA";
@@ -237,7 +241,7 @@ const runLogic = (keyDown) => {
           degree = degree + 15;
         } else if (key === "KeyW") {
           degree = degree + 45;
-        } else if (key === "KeyD") {
+        } else if (key === "KeyD" || key === "KeyC") {
           degree = degree - 15;
         } else if (key === "KeyS") {
           degree = degree - 45;
@@ -247,7 +251,7 @@ const runLogic = (keyDown) => {
           degree = degree - 15;
         } else if (key === "KeyW") {
           degree = degree - 45;
-        } else if (key === "KeyA") {
+        } else if (key === "KeyA" || key === "KeyZ") {
           degree = degree + 15;
         } else if (key === "KeyS") {
           degree = degree + 45;
@@ -398,7 +402,9 @@ const startGame = () => {
       e.code === "KeyE" ||
       e.code === "KeyA" ||
       e.code === "KeyS" ||
-      e.code === "KeyD"
+      e.code === "KeyD" ||
+      e.code === "KeyZ" ||
+      e.code === "KeyC"
     ) {
       if (!tutorialLevels[hits]) {
         startTimer();
