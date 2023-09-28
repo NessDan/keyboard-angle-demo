@@ -1,5 +1,6 @@
 import { setupFirebaseFirestore } from "./shared/web/firebase.js";
 
+const CONTEST_ACTIVE = false; // TODO: Update this according to the contest schedule
 let keysPressed = [];
 const bodyEle = document.body;
 const keyEleQ = document.getElementsByClassName("key-q");
@@ -16,6 +17,7 @@ const targetEle = document.getElementById("target");
 const scoreEle = document.getElementById("score");
 const accuracyEle = document.getElementById("accuracy");
 const timerEle = document.getElementById("timer");
+const accuracySectionEle = document.getElementById("accuracy-section");
 const timerSectionEle = document.getElementById("timer-section");
 const leaderboardWrapperEle = document.getElementById("leaderboard-wrapper");
 const leaderboardSubmittedEle = document.getElementById("submitted-text");
@@ -476,7 +478,13 @@ const startGame = () => {
     }
   };
 
-  window.addEventListener("keydown", startTimerListener);
+  if (CONTEST_ACTIVE) {
+    window.addEventListener("keydown", startTimerListener);
+  } else {
+    // Since no contest is going on, we don't need to start the timer
+    // and we can just show the accuracy section instead
+    accuracySectionEle.classList.remove("hidden");
+  }
 };
 
 startGame();

@@ -279,10 +279,6 @@ header {
   font: 24px monospace;
 }
 
-.accuracy-stat {
-  display: none;
-}
-
 .gameover .stat {
   display: block;
 }
