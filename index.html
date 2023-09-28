@@ -3,93 +3,162 @@
   <head>
     <title>Keyboard Angle Demo</title>
     <link rel="stylesheet" type="text/css" href="./index.css" />
+    <!-- WHEN CONTEST IS LIVE, COMMENT BELOW AND UPDATE JS VARIABLE `CONTEST_ACTIVE` -->
+    <meta http-equiv="refresh" content="0;URL='https://keyboard.gg/angles/'" />
   </head>
   <body>
     <header>
       <h1>24 Angles to try!</h1>
     </header>
 
-    <ol>
-      <li>Get close using WASD</li>
-      <li>Use the modifiers to hit the target!</li>
-    </ol>
+    <div class="game-and-submission">
+      <div class="game-and-rules">
+        <ol>
+          <li>Get close using WASD</li>
+          <li>Use the modifiers to hit the target!</li>
+        </ol>
 
-    <div id="angle-game" class="key-and-joy-container">
-      <div class="circle">
-        <div id="vert-line"></div>
-        <div id="hori-line"></div>
-        <div class="keyboard" id="keyboard-guide">
-          <div class="key key-q">
-            <span>Q</span>
-          </div>
-          <div class="key key-e">
-            <span>E</span>
+        <div id="angle-game" class="key-and-joy-container">
+          <div class="circle">
+            <div id="vert-line"></div>
+            <div id="hori-line"></div>
+            <div class="keyboard" id="keyboard-guide">
+              <div class="key key-q">
+                <span>Q</span>
+              </div>
+              <div class="key key-e">
+                <span>E</span>
+              </div>
+
+              <div class="key key-a">
+                <span>A</span>
+              </div>
+              <div class="key key-d">
+                <span>D</span>
+              </div>
+            </div>
+
+            <div class="point-holder" id="point-holder">
+              <div class="point center" id="point"></div>
+            </div>
+            <div class="point-holder target-holder" id="target-holder">
+              <div id="target" class="point target"></div>
+            </div>
           </div>
 
-          <div class="key key-a">
-            <span>A</span>
+          <div id="stats">
+            <section class="score-stat stat">
+              Score:
+              <div id="score">0</div>
+            </section>
+            <section id="accuracy-section" class="accuracy-stat stat hidden">
+              Accuracy:
+              <div id="accuracy">-</div>
+            </section>
+            <section id="timer-section" class="timer-stat stat hidden">
+              Timer:
+              <div id="timer"></div>
+            </section>
           </div>
-          <div class="key key-d">
-            <span>D</span>
-          </div>
-        </div>
 
-        <div class="point-holder" id="point-holder">
-          <div class="point center" id="point"></div>
-        </div>
-        <div class="point-holder target-holder" id="target-holder">
-          <div id="target" class="point target"></div>
+          <div id="keyboard" class="keyboard">
+            <div class="row top">
+              <div class="key key-q">
+                <span>Q</span>
+                <span class="icon up">⬆</span>
+                <span class="icon left">⬅</span>
+              </div>
+              <div class="key key-w">
+                <span>W</span>
+              </div>
+              <div class="key key-e">
+                <span>E</span>
+                <span class="icon right">➡</span>
+                <span class="icon up">⬆</span>
+              </div>
+            </div>
+
+            <div class="row bottom">
+              <div class="key key-a">
+                <span>A</span>
+                <span class="icon down">⬇</span>
+              </div>
+              <div class="key key-s">
+                <span>S</span>
+              </div>
+              <div class="key key-d">
+                <span>D</span>
+                <span class="icon down">⬇</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div id="stats">
-        <section class="score-stat stat">
-          Score:
-          <div id="score">0</div>
-        </section>
-        <section class="accuracy-stat stat">
-          Accuracy:
-          <div id="accuracy">-</div>
-        </section>
-        <section id="timer-section" class="timer-stat stat hidden">
-          Timer:
-          <div id="timer"></div>
-        </section>
-      </div>
+      <h3 id="submitted-text" class="hidden">
+        Submitted!<br /><small>Refresh to play again!</small>
+      </h3>
 
-      <div id="keyboard" class="keyboard">
-        <div class="row top">
-          <div class="key key-q">
-            <span>Q</span>
-            <span class="icon up">⬆</span>
-            <span class="icon left">⬅</span>
-          </div>
-          <div class="key key-w">
-            <span>W</span>
-          </div>
-          <div class="key key-e">
-            <span>E</span>
-            <span class="icon right">➡</span>
-            <span class="icon up">⬆</span>
-          </div>
-        </div>
+      <div id="submit-score-wrapper" class="vis-hidden">
+        <h2>Game Over!<br /><small>Submit Your Score!</small></h2>
+        <ol>
+          <li>
+            Take a screenshot (Saved to Clipboard)
+            <ul>
+              <li>Windows: Alt + PrtScrn</li>
+              <li>Mac: Shift-Command-Control-3</li>
+            </ul>
+          </li>
+          <li>
+            <a
+              id="tweet-link"
+              href="https://twitter.com/intent/tweet?text=Playing%20this%20game%20to%20try%20and%20win%20a%20keyboard.gg%20Edgeguard%3A%20https%3A%2F%2Fkeyboard.gg%2Fcontest%2F%0A%0AMy%20score%3A%2050%0A%0Ahttps%3A%2F%2Ftwitter.com%2FKeyboardDotGG%2Fstatus%2F1694717849213026601"
+              target="_blank"
+              >Make this Tweet</a
+            >
+            and paste your screenshot!
+            <ul>
+              <li>Every 10 Points = 1 Entry! (Max 5)</li>
+              <li>Get a new high score? Send another Tweet!</li>
+            </ul>
+          </li>
+          <li>Finally, enter your Twitter username down below.</li>
+        </ol>
 
-        <div class="row bottom">
-          <div class="key key-a">
-            <span>A</span>
-            <span class="icon down">⬇</span>
-          </div>
-          <div class="key key-s">
-            <span>S</span>
-          </div>
-          <div class="key key-d">
-            <span>D</span>
-            <span class="icon down">⬇</span>
-          </div>
+        <div id="leaderboard-wrapper" class="leaderboard-submit hidden">
+          <!-- <p>Enter your email for a chance to win a prize!</p> -->
+
+          <form id="submit-score">
+            <label
+              >Twitter Username:
+              <input
+                type="text"
+                required
+                id="leaderboard-twitter"
+                name="leaderboard-twitter"
+                placeholder="@username"
+              />
+            </label>
+            <br />
+            <label
+              >(Optional) Email:
+              <input
+                type="email"
+                id="leaderboard-email"
+                name="leaderboard-email"
+              />
+            </label>
+            <br />
+            <!-- <label
+              >Send offers & updates?
+              <input type="checkbox" id="email-opt-in" name="email-opt-in" />
+            </label> -->
+            <br />
+            <input type="submit" id="leaderboard-submit" />
+          </form>
         </div>
       </div>
     </div>
-
     <div id="tutorial-vid">
       <h1>Tutorial:</h1>
       <iframe

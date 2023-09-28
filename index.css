@@ -16,6 +16,15 @@ header {
   margin-bottom: 24px;
 }
 
+.game-and-submission {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#submit-score-wrapper {
+  font-size: 60%;
+}
+
 .key-and-joy-container {
   display: flex;
   justify-content: space-between;
@@ -270,10 +279,6 @@ header {
   font: 24px monospace;
 }
 
-.accuracy-stat {
-  display: none;
-}
-
 .gameover .stat {
   display: block;
 }
@@ -285,6 +290,10 @@ header {
 #timer {
   height: 8px;
   background: green;
+}
+
+.vis-hidden {
+  visibility: hidden;
 }
 
 .hidden {

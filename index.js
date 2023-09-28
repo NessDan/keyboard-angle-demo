@@ -1,5 +1,8 @@
+import { setupFirebaseFirestore } from "./shared/web/firebase.js";
+
+const CONTEST_ACTIVE = false; // TODO: Update this according to the contest schedule
 let keysPressed = [];
-const angleGameEle = document.getElementById("angle-game");
+const bodyEle = document.body;
 const keyEleQ = document.getElementsByClassName("key-q");
 const keyEleE = document.getElementsByClassName("key-e");
 const keyEleA = document.getElementsByClassName("key-a");
@@ -14,7 +17,18 @@ const targetEle = document.getElementById("target");
 const scoreEle = document.getElementById("score");
 const accuracyEle = document.getElementById("accuracy");
 const timerEle = document.getElementById("timer");
+const accuracySectionEle = document.getElementById("accuracy-section");
 const timerSectionEle = document.getElementById("timer-section");
+const leaderboardWrapperEle = document.getElementById("leaderboard-wrapper");
+const leaderboardSubmittedEle = document.getElementById("submitted-text");
+const leaderboardFormEle = document.getElementById("submit-score");
+const leaderboardSubmitWrapperEle = document.getElementById(
+  "submit-score-wrapper"
+);
+const leaderboardTwitterEle = document.getElementById("leaderboard-twitter");
+const leaderboardEmailEle = document.getElementById("leaderboard-email");
+const leaderboardConsentEle = document.getElementById("email-opt-in");
+const tweetLinkEle = document.getElementById("tweet-link");
 let targetAngle = 15;
 let score = 0;
 let hits = 0;
@@ -26,8 +40,7 @@ let timeLeft = maxTime;
 let timerInterval;
 // 5, 7 right | 19, 17 left | 2, 4 top-right | 22, 20 top-left | 8, 10 bottom-right | 16, 14 bottom-left | 23, 1 up | 11, 13 down |
 const tutorialLevels = [
-  5, 7, 19, 17, 5, 7, 19, 17, 2, 4, 22, 20, 8, 10, 16, 14, 23, 1, 11, 13, 23, 1,
-  11, 13,
+  23, 1, 5, 7, 2, 4, 19, 17, 22, 20, 8, 10, 16, 14, 11, 13,
 ];
 
 document.addEventListener("keydown", (event) => {
@@ -76,6 +89,56 @@ document.addEventListener("keyup", (event) => {
   ) {
     keysPressed = keysPressed.filter((key) => key !== event.code);
     runLogic();
+  }
+});
+
+leaderboardFormEle.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  try {
+    const { db, doc, getDoc, serverTimestamp, updateDoc, setDoc } =
+      await setupFirebaseFirestore();
+
+    const email = leaderboardEmailEle.value?.trim();
+    const twitter = leaderboardTwitterEle.value?.trim()?.replace(/^@/, "");
+    let docRef = doc(db, "contest2", twitter);
+    const existingDoc = await getDoc(docRef);
+    let highScoreAccuracy = accuracy;
+    let highScore = finalScore;
+    let timestamp = serverTimestamp();
+
+    if (existingDoc.exists()) {
+      const existingData = existingDoc.data();
+
+      if (existingData.highScore >= finalScore) {
+        // No new highscore, don't update timestamp or highscore
+        highScoreAccuracy = existingData?.highScoreAccuracy || 0;
+        timestamp = existingData.highScoreTimestamp;
+        highScore = existingData.highScore;
+      }
+      docRef = await updateDoc(docRef, {
+        twitter: twitter,
+        email: email,
+        highScore: highScore,
+        highScoreAccuracy: highScoreAccuracy,
+        highScoreTimestamp: timestamp,
+        allScores: [finalScore, ...existingData.allScores],
+      });
+    } else {
+      docRef = await setDoc(docRef, {
+        twitter: twitter,
+        email: email,
+        highScore: highScore,
+        highScoreAccuracy: highScoreAccuracy,
+        highScoreTimestamp: timestamp,
+        allScores: [finalScore],
+      });
+    }
+
+    leaderboardSubmitWrapperEle.classList.add("hidden");
+    leaderboardSubmittedEle.classList.remove("hidden");
+  } catch (e) {
+    alert("Couldn't submit. Do you have adblock enabled?");
   }
 });
 
@@ -371,11 +434,13 @@ const runLogic = (keyDown) => {
 };
 
 const gameOver = () => {
-  angleGameEle.classList.add("gameover");
+  bodyEle.classList.add("gameover");
+  leaderboardSubmitWrapperEle.classList.remove("vis-hidden");
   clearInterval(timerInterval);
   finalScore = score;
   scoreEle.innerHTML = finalScore;
-  alert(`Game over! Your score is ${finalScore}`);
+  tweetLinkEle.href = `https://twitter.com/intent/tweet?text=Playing%20this%20game%20to%20try%20and%20win%20a%20keyboard.gg%20Edgeguard%3A%20https%3A%2F%2Fkeyboard.gg%2Fcontest%2F%0A%0AMy%20score%3A%20${finalScore}%0A%0Ahttps%3A%2F%2Ftwitter.com%2FKeyboardDotGG%2Fstatus%2F1694717849213026601`;
+  leaderboardWrapperEle.classList.remove("hidden");
 };
 
 const startTimer = () => {
@@ -413,7 +478,13 @@ const startGame = () => {
     }
   };
 
-  window.addEventListener("keydown", startTimerListener);
+  if (CONTEST_ACTIVE) {
+    window.addEventListener("keydown", startTimerListener);
+  } else {
+    // Since no contest is going on, we don't need to start the timer
+    // and we can just show the accuracy section instead
+    accuracySectionEle.classList.remove("hidden");
+  }
 };
 
 startGame();
